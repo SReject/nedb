@@ -1,0 +1,177 @@
+## AUTO-DETECT
+##   Handle line endings automatically for files detected as
+##   text and leave all files detected as binary untouched.
+##   This will handle all files NOT defined below.
+* text=auto
+
+## SOURCE CODE
+*.bat      text eol=crlf
+*.coffee   text eol=lf
+*.css      text eol=lf
+*.htm      text eol=lf
+*.html     text eol=lf
+*.inc      text eol=lf
+*.ini      text
+*.js       text eol=lf
+*.json     text eol=lf
+*.jsx      text eol=lf
+*.less     text eol=lf
+*.od       text
+*.onlydata text
+*.php      text eol=lf
+*.sass     text eol=lf
+*.scm      text
+*.scss     text
+*.sh       text eol=lf
+*.styl     text
+*.tag      text
+*.ts       text eol=lf
+*.tsx      text eol=lf
+*.xml      text eol=lf
+*.xhtml    text eol=lf
+
+## DOCKER
+*.dockerignore    text
+Dockerfile    text
+
+## DOCUMENTATION
+*.markdown   text eol=lf
+*.md         text eol=lf
+*.mdwn       text eol=lf
+*.mdown      text eol=lf
+*.mkd        text eol=lf
+*.mkdn       text eol=lf
+*.mdtxt      text eol=lf
+*.mdtext     text eol=lf
+*.txt        text eol=lf
+AUTHORS      text eol=lf
+CHANGELOG    text eol=lf
+CHANGES      text eol=lf
+CONTRIBUTING text eol=lf
+COPYING      text eol=lf
+copyright    text eol=lf
+*COPYRIGHT*  text eol=lf
+INSTALL      text eol=lf
+license      text eol=lf
+LICENSE      text eol=lf
+NEWS         text eol=lf
+readme       text eol=lf
+*README*     text eol=lf
+TODO         text eol=lf
+
+## TEMPLATES
+*.dot        text
+*.ejs        text
+*.haml       text
+*.handlebars text
+*.hbs        text
+*.hbt        text
+*.jade       text
+*.latte      text
+*.mustache   text
+*.njk        text
+*.phtml      text
+*.tmpl       text
+*.tpl        text
+*.twig       text
+
+## LINTERS
+.csslintrc    text
+.eslintrc     text eol=lf
+.htmlhintrc   text
+.jscsrc       text
+.jshintrc     text
+.jshintignore text
+.stylelintrc  text
+
+## CONFIGS
+*.bowerrc      text
+*.cnf          text
+*.conf         text
+*.config       text
+.browserslistrc    text
+.editorconfig  text
+.gitattributes text
+.gitconfig     text
+.gitignore     text
+.htaccess      text
+*.npmignore    text
+*.yaml         text
+*.yml          text
+browserslist   text
+Makefile       text
+makefile       text
+
+## HEROKU
+Procfile    text
+.slugignore text
+
+## GRAPHICS
+*.ai   binary
+*.bmp  binary
+*.eps  binary
+*.gif  binary
+*.ico  binary
+*.jng  binary
+*.jp2  binary
+*.jpg  binary
+*.jpeg binary
+*.jpx  binary
+*.jxr  binary
+*.pdf  binary
+*.png  binary
+*.psb  binary
+*.psd  binary
+*.svg  text
+*.svgz binary
+*.tif  binary
+*.tiff binary
+*.wbmp binary
+*.webp binary
+
+## AUDIO
+*.kar  binary
+*.m4a  binary
+*.mid  binary
+*.midi binary
+*.mp3  binary
+*.ogg  binary
+*.ra   binary
+
+## VIDEO
+*.3gpp binary
+*.3gp  binary
+*.as   binary
+*.asf  binary
+*.asx  binary
+*.fla  binary
+*.flv  binary
+*.m4v  binary
+*.mng  binary
+*.mov  binary
+*.mp4  binary
+*.mpeg binary
+*.mpg  binary
+*.ogv  binary
+*.swc  binary
+*.swf  binary
+*.webm binary
+
+## ARCHIVES
+*.7z  binary
+*.gz  binary
+*.jar binary
+*.rar binary
+*.tar binary
+*.zip binary
+
+## FONTS
+*.ttf   binary
+*.eot   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary
+
+## EXECUTABLES
+*.exe binary
+*.pyc binary
