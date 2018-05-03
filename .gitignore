@@ -1,23 +1,65 @@
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
-.idea
+# General ignores
+build/
 pids
+*.pid
+*.seed
+*.pid.lock
+*.tgz
 logs
-results
+*.log
+*.log.htm
 
-npm-debug.log
-workspace
-node_modules
+# OS Ignores: Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
 
-browser-version/src
-browser-version/node_modules
+# OS Ignores: iOS/Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
-*.swp
-*~
-*.swo
+# OS Ignores: Linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Node-specific ignores
+*-debug.log*
+yarn-error.log*
+lib-cov
+coverage
+.nyc_output
+.grunt
+bower_components
+.lock-wscript
+node_modules/
+jspm_packages/
+typings/
+.npm
+.eslintcache
+.node_repl_history
+.yarn-integrity
