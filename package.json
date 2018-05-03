@@ -39,8 +39,11 @@
     "scripts": {
         "lint": "./node_modules/.bin/eslint ./lib",
         "lint-local": "./node_modules/.bin/eslint ./lib --output-file=eslint.log.htm --format=html --fix",
+
         "test": "./node_modules/.bin/mocha --reporter spec --timeout 10000",
-        "validate": "npm run lint && npm run test"
+
+        "validate": "npm run lint && npm run test",
+        "validate-local": "npm run local-lint && npm run test"
     },
     "main": "index",
     "license": "MIT"

@@ -2,17 +2,17 @@
 
 ## The JavaScript Database
 
-**Embedded persistent or in memory database for Node.js, nw.js, Electron and browsers, 100% JavaScript, no binary dependency**. API is a subset of MongoDB's and it's <a href="#speed">plenty fast</a>.
+**Embedded persistent or in memory database for Node.js, Electron, and nw.js; 100% JavaScript, no binary dependency**. API is a subset of MongoDB's and it's <a href="#speed">plenty fast</a>.
 
-**IMPORTANT NOTE**: Please don't submit issues for questions regarding your code. Only actual bugs or feature requests will be answered, all others will be closed without comment. Also, please follow the <a href="#bug-reporting-guidelines">bug reporting guidelines</a> and check the <a href="https://github.com/louischatriot/nedb/wiki/Change-log" target="_blank">change log</a> before submitting an already fixed bug :)
-
-## Installation, tests
-Module name on npm and bower is `nedb`.
-
+## Installation
 ```
-npm install nedb --save    # Put latest version in your package.json
-npm test                   # You'll need the dev dependencies to launch tests
-bower install nedb         # For the browser versions, which will be in browser-version/out
+todo
+```
+
+## Tests
+```
+npm run test # To run just the tests
+npm run validate-local # to pass the code through eslint then execute tests
 ```
 
 ## API
@@ -32,7 +32,6 @@ It is a subset of MongoDB's API (the most used operations).
 * <a href="#updating-documents">Updating documents</a>
 * <a href="#removing-documents">Removing documents</a>
 * <a href="#indexing">Indexing</a>
-* <a href="#browser-version">Browser version</a>
 
 ### Creating/loading a database
 You can use NeDB as an in-memory only datastore or as a persistent datastore. One datastore is the equivalent of a MongoDB collection. The constructor is used as follows `new Datastore(options)` where `options` is an object with the following fields:
@@ -641,29 +640,6 @@ db.ensureIndex({ fieldName: 'expirationDate', expireAfterSeconds: 0 }, function 
 **Note:** the `ensureIndex` function creates the index synchronously, so it's best to use it at application startup. It's quite fast so it doesn't increase startup time much (35 ms for a collection containing 10,000 documents).
 
 
-## Browser version
-The browser version and its minified counterpart are in the `browser-version/out` directory. You only need to require `nedb.js` or `nedb.min.js` in your HTML file and the global object `Nedb` can be used right away, with the same API as the server version:
-
-```
-<script src="nedb.min.js"></script>
-<script>
-  var db = new Nedb();   // Create an in-memory only datastore
-
-  db.insert({ planet: 'Earth' }, function (err) {
-   db.find({}, function (err, docs) {
-     // docs contains the two planets Earth and Mars
-   });
-  });
-</script>
-```
-
-If you specify a `filename`, the database will be persistent, and automatically select the best storage method available (IndexedDB, WebSQL or localStorage) depending on the browser. In most cases that means a lot of data can be stored, typically in hundreds of MB. **WARNING**: the storage system changed between v1.3 and v1.4 and is NOT back-compatible! Your application needs to resync client-side when you upgrade NeDB.
-
-NeDB is compatible with all major browsers: Chrome, Safari, Firefox, IE9+. Tests are in the `browser-version/test` directory (files `index.html` and `testPersistence.html`).
-
-If you fork and modify nedb, you can build the browser version from the sources, the build script is `browser-version/build.js`.
-
-
 ## Performance
 ### Speed
 NeDB is not intended to be a replacement of large-scale databases such as MongoDB, and as such was not designed for speed. That said, it is still pretty fast on the expected datasets, especially if you use indexing. On a typical, not-so-fast dev machine, for a collection containing 10,000 documents, with indexing:  
@@ -678,37 +654,13 @@ You can run these simple benchmarks by executing the scripts in the `benchmarks`
 A copy of the whole database is kept in memory. This is not much on the
 expected kind of datasets (20MB for 10,000 2KB documents).
 
-## Use in other services
-* <a href="https://github.com/louischatriot/connect-nedb-session"
-  target="_blank">connect-nedb-session</a> is a session store for
-Connect and Express, backed by nedb
-* If you mostly use NeDB for logging purposes and don't want the memory footprint of your application to grow too large, you can use <a href="https://github.com/louischatriot/nedb-logger" target="_blank">NeDB Logger</a> to insert documents in a NeDB-readable database
-* If you've outgrown NeDB, switching to MongoDB won't be too hard as it is the same API. Use <a href="https://github.com/louischatriot/nedb-to-mongodb" target="_blank">this utility</a> to transfer the data from a NeDB database to a MongoDB collection
-* An ODM for NeDB: <a href="https://github.com/scottwrobinson/camo" target="_blank">Camo</a>
-
-## Pull requests
-**Important: I consider NeDB to be feature-complete, i.e. it does everything I think it should and nothing more. As a general rule I will not accept pull requests anymore, except for bugfixes (of course) or if I get convinced I overlook a strong usecase. Please make sure to open an issue before spending time on any PR.**
-
-If you submit a pull request, thanks! There are a couple rules to follow though to make it manageable:
-* The pull request should be atomic, i.e. contain only one feature. If it contains more, please submit multiple pull requests. Reviewing massive, 1000 loc+ pull requests is extremely hard.
-* Likewise, if for one unique feature the pull request grows too large (more than 200 loc tests not included), please get in touch first.
-* Please stick to the current coding style. It's important that the code uses a coherent style for readability.
-* Do not include sylistic improvements ("housekeeping"). If you think one part deserves lots of housekeeping, use a separate pull request so as not to pollute the code.
-* Don't forget tests for your new feature. Also don't forget to run the whole test suite before submitting to make sure you didn't introduce regressions.
-* Do not build the browser version in your branch, I'll take care of it once the code is merged.
-* Update the readme accordingly.
-* Last but not least: keep in mind what NeDB's mindset is! The goal is not to be a replacement for MongoDB, but to have a pure JS database, easy to use, cross platform, fast and expressive enough for the target projects (small and self contained apps on server/desktop/browser/mobile). Sometimes it's better to shoot for simplicity than for API completeness with regards to MongoDB.
-
 ## Bug reporting guidelines
 If you report a bug, thank you! That said for the process to be manageable please strictly adhere to the following guidelines. I'll not be able to handle bug reports that don't:
 * Your bug report should be a self-containing gist complete with a package.json for any dependencies you need. I need to run through a simple `git clone gist; npm install; node bugreport.js`, nothing more.
 * It should use assertions to showcase the expected vs actual behavior and be hysteresis-proof. It's quite simple in fact, see this example: https://gist.github.com/louischatriot/220cf6bd29c7de06a486
 * Simplify as much as you can. Strip all your application-specific code. Most of the time you will see that there is no bug but an error in your code :)
 * 50 lines max. If you need more, read the above point and rework your bug report. If you're **really** convinced you need more, please explain precisely in the issue.
-* The code should be Javascript, not Coffeescript.
-
-### Bitcoins
-You don't have time? You can support NeDB by sending bitcoins to this address: 1dDZLnWpBbodPiN8sizzYrgaz5iahFyb1
+* The code should be Javascript, not Coffeescript or TypeScript.
 
 
 ## License
