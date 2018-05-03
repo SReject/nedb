@@ -6,17 +6,6 @@
 
 **IMPORTANT NOTE**: Please don't submit issues for questions regarding your code. Only actual bugs or feature requests will be answered, all others will be closed without comment. Also, please follow the <a href="#bug-reporting-guidelines">bug reporting guidelines</a> and check the <a href="https://github.com/louischatriot/nedb/wiki/Change-log" target="_blank">change log</a> before submitting an already fixed bug :)
 
-## Support NeDB development
-
-<img src="http://i.imgur.com/mpwi4lf.jpg">
-
-No time to <a href="#pull-requests">help out</a>? You can support NeDB development by sending money or bitcoins!
-
-Money: [![Donate to author](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=louis%2echatriot%40gmail%2ecom&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest)
-
-Bitcoin address: 1dDZLnWpBbodPiN8sizzYrgaz5iahFyb1
-
-
 ## Installation, tests
 Module name on npm and bower is `nedb`.
 
@@ -124,7 +113,7 @@ Durability works similarly to major databases: compaction forces the OS to physi
 
 ### Inserting documents
 The native types are `String`, `Number`, `Boolean`, `Date` and `null`. You can also use
-arrays and subdocuments (objects). If a field is `undefined`, it will not be saved (this is different from 
+arrays and subdocuments (objects). If a field is `undefined`, it will not be saved (this is different from
 MongoDB which transforms `undefined` in `null`, something I find counter-intuitive).
 
 If the document does not contain an `_id` field, NeDB will automatically generated one for you (a 16-characters alphanumerical string). The `_id` of a document, once set, cannot be modified.
@@ -659,7 +648,7 @@ The browser version and its minified counterpart are in the `browser-version/out
 <script src="nedb.min.js"></script>
 <script>
   var db = new Nedb();   // Create an in-memory only datastore
-  
+
   db.insert({ planet: 'Earth' }, function (err) {
    db.find({}, function (err, docs) {
      // docs contains the two planets Earth and Mars
@@ -722,6 +711,6 @@ If you report a bug, thank you! That said for the process to be manageable pleas
 You don't have time? You can support NeDB by sending bitcoins to this address: 1dDZLnWpBbodPiN8sizzYrgaz5iahFyb1
 
 
-## License 
+## License
 
 See [License](LICENSE)
