@@ -13,6 +13,7 @@ const chai = require('chai');
 const Datastore = require('../lib/datastore');
 const Persistence = require('../lib/persistence');
 const Cursor = require('../lib/cursor');
+const storage = require('../lib/storage');
 
 // begin
 chai.should();
@@ -27,36 +28,28 @@ describe('Cursor', function () {
         d.filename.should.equal(testDb);
         d.inMemoryOnly.should.equal(false);
 
-        async.waterfall([
-            function (cb) {
-                Persistence.ensureDirectoryExists(path.dirname(testDb), function () {
-                    fs.exists(testDb, function (exists) {
-                        if (exists) {
-                            fs.unlink(testDb, cb);
-                        } else {
-                            return cb();
-                        }
-                    });
-                });
-            },
-            function (cb) {
+        Persistence.ensureDirectoryExists(path.dirname(testDb))
+            .then(() => storage.exists(testDb))
+            .then(exists => {
+                if (exists) {
+                    return storage.unlink(testDb);
+                }
+            }).then(() => {
                 d.loadDatabase(function (err) {
                     assert.isNull(err);
                     d.getAllData().length.should.equal(0);
-                    return cb();
+                    done();
                 });
-            }
-        ], done);
+            });
     });
 
     describe('Without sorting', function () {
-
         beforeEach(function (done) {
-            d.insert({ age: 5 }, function (err) {
-                d.insert({ age: 57 }, function (err) {
-                    d.insert({ age: 52 }, function (err) {
-                        d.insert({ age: 23 }, function (err) {
-                            d.insert({ age: 89 }, function (err) {
+            d.insert({ age: 5 }, function () {
+                d.insert({ age: 57 }, function () {
+                    d.insert({ age: 52 }, function () {
+                        d.insert({ age: 23 }, function () {
+                            d.insert({ age: 89 }, function () {
                                 return done();
                             });
                         });

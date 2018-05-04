@@ -5,9 +5,10 @@ const fs = require('fs');
 const path = require('path');
 
 // dep modules
-const chai = require('chai');
 const _ = require('underscore');
 const async = require('async');
+const chai = require('chai');
+
 
 // lib modules
 const model = require('../lib/model');
@@ -16,6 +17,7 @@ const Cursor = require('../lib/cursor');
 const Index = require('../lib/indexes');
 const Executor = require('../lib/executor');
 const Persistence = require('../lib/persistence');
+const storage = require('../lib/storage');
 
 // begin
 chai.should();
@@ -33,15 +35,16 @@ describe('Database', function () {
 
         async.waterfall([
             function (cb) {
-                Persistence.ensureDirectoryExists(path.dirname(testDb), function () {
-                    fs.exists(testDb, function (exists) {
+                Persistence.ensureDirectoryExists(path.dirname(testDb))
+                    .then(() => {
+                        return storage.exists(testDb);
+                    }).then(exists => {
                         if (exists) {
-                            fs.unlink(testDb, cb);
-                        } else {
-                            return cb();
+                            return storage.unlink(testDb);
                         }
-                    });
-                });
+                    })
+                    .then(cb)
+                    .catch(cb);
             },
             function (cb) {
                 d.loadDatabase(function (err) {

@@ -11,6 +11,7 @@ const chai = require('chai');
 // lib modules
 const Datastore = require('../lib/datastore');
 const Persistence = require('../lib/persistence');
+const storage = require('../lib/storage');
 
 // begin
 chai.should();
@@ -145,15 +146,15 @@ describe('Executor', function () {
 
             async.waterfall([
                 function (cb) {
-                    Persistence.ensureDirectoryExists(path.dirname(testDb), function () {
-                        fs.exists(testDb, function (exists) {
+                    Persistence.ensureDirectoryExists(path.dirname(testDb))
+                        .then(() => storage.exists(testDb))
+                        .then(exists => {
                             if (exists) {
-                                fs.unlink(testDb, cb);
-                            } else {
-                                return cb();
+                                return storage.unlink(testDb);
                             }
-                        });
-                    });
+                        })
+                        .then(cb)
+                        .catch(cb);
                 },
                 function (cb) {
                     d.loadDatabase(function (err) {

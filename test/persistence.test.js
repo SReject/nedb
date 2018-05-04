@@ -29,33 +29,31 @@ describe('Persistence', function () {
         d.filename.should.equal(testDb);
         d.inMemoryOnly.should.equal(false);
 
-        async.waterfall([
-            function (cb) {
-                Persistence.ensureDirectoryExists(path.dirname(testDb), function () {
-                    fs.exists(testDb, function (exists) {
-                        if (exists) {
-                            fs.unlink(testDb, cb);
-                        } else {
-                            return cb();
-                        }
-                    });
-                });
-            },
-            function (cb) {
+        Persistence.ensureDirectoryExists(path.dirname(testDb))
+            .then(() => storage.exists(testDb))
+            .then(exists => {
+                if (exists) {
+                    return storage.unlink(testDb);
+                }
+            })
+            .then(() => {
                 d.loadDatabase(function (err) {
                     assert.isNull(err);
                     d.getAllData().length.should.equal(0);
-                    return cb();
+                    done();
                 });
-            }
-        ], done);
+            }).catch(done);
     });
 
     it('Every line represents a document', function () {
         let now = new Date(),
-            rawData = model.serialize({ _id: "1", a: 2, ages: [1, 5, 12] }) + '\n' +
-    model.serialize({ _id: "2", hello: 'world' }) + '\n' +
-    model.serialize({ _id: "3", nested: { today: now } }),
+            rawData = model.serialize({
+                _id: "1",
+                a: 2,
+                ages: [1, 5, 12]
+            }) + '\n' +
+            model.serialize({ _id: "2", hello: 'world' }) + '\n' +
+            model.serialize({ _id: "3", nested: { today: now } }),
             treatedData = d.persistence.treatRawData(rawData).data;
         treatedData.sort(function (a, b) {
             return a._id - b._id;
@@ -519,7 +517,7 @@ describe('Persistence', function () {
                                 idx = model.deserialize(idx);
                                 assert.deepEqual(idx, { '$$indexCreated': { fieldName: 'idefix' } });
 
-                                d.persistence.persistCachedDatabase(function () {
+                                d.persistence.persistCachedDatabase().then(() => {
                                     let _data = fs.readFileSync(hookTestFilename, 'utf8'),
                                         data = _data.split('\n'),
                                         doc0 = bd(data[0]),
@@ -735,16 +733,18 @@ describe('Persistence', function () {
                     fs.writeFileSync(testDb + '~', 'something', 'utf8');
                     fs.existsSync(testDb + '~').should.equal(true);
 
-                    d.persistence.persistCachedDatabase(function (err) {
-                        let contents = fs.readFileSync(testDb, 'utf8');
-                        assert.isNull(err);
-                        fs.existsSync(testDb).should.equal(true);
-                        fs.existsSync(testDb + '~').should.equal(false);
-                        if (!contents.match(/^{"hello":"world","_id":"[0-9a-zA-Z]{16}"}\n$/)) {
-                            throw new Error("Datafile contents not as expected");
-                        }
-                        done();
-                    });
+                    d.persistence.persistCachedDatabase()
+                        .then(() => {
+                            let contents = fs.readFileSync(testDb, 'utf8');
+                            fs.existsSync(testDb).should.equal(true);
+                            fs.existsSync(testDb + '~').should.equal(false);
+                            if (!contents.match(/^{"hello":"world","_id":"[0-9a-zA-Z]{16}"}\n$/)) {
+                                throw new Error("Datafile contents not as expected");
+                            }
+                            done();
+                        }).catch(err => {
+                            assert.isNull(err);
+                        });
                 });
             });
         });
@@ -766,16 +766,19 @@ describe('Persistence', function () {
                     fs.writeFileSync(testDb + '~', 'bloup', 'utf8');
                     fs.existsSync(testDb + '~').should.equal(true);
 
-                    d.persistence.persistCachedDatabase(function (err) {
-                        let contents = fs.readFileSync(testDb, 'utf8');
-                        assert.isNull(err);
-                        fs.existsSync(testDb).should.equal(true);
-                        fs.existsSync(testDb + '~').should.equal(false);
-                        if (!contents.match(/^{"hello":"world","_id":"[0-9a-zA-Z]{16}"}\n$/)) {
-                            throw new Error("Datafile contents not as expected");
-                        }
-                        done();
-                    });
+                    d.persistence.persistCachedDatabase()
+                        .then(() => {
+                            let contents = fs.readFileSync(testDb, 'utf8');
+                            fs.existsSync(testDb).should.equal(true);
+                            fs.existsSync(testDb + '~').should.equal(false);
+                            if (!contents.match(/^{"hello":"world","_id":"[0-9a-zA-Z]{16}"}\n$/)) {
+                                throw new Error("Datafile contents not as expected");
+                            }
+                            done();
+                        })
+                        .catch(err => {
+                            assert.isNull(err);
+                        });
                 });
             });
         });
@@ -792,16 +795,18 @@ describe('Persistence', function () {
                     fs.existsSync(testDb).should.equal(false);
                     fs.existsSync(testDb + '~').should.equal(true);
 
-                    d.persistence.persistCachedDatabase(function (err) {
-                        let contents = fs.readFileSync(testDb, 'utf8');
-                        assert.isNull(err);
-                        fs.existsSync(testDb).should.equal(true);
-                        fs.existsSync(testDb + '~').should.equal(false);
-                        if (!contents.match(/^{"hello":"world","_id":"[0-9a-zA-Z]{16}"}\n$/)) {
-                            throw new Error("Datafile contents not as expected");
-                        }
-                        done();
-                    });
+                    d.persistence.persistCachedDatabase()
+                        .then(() => {
+                            let contents = fs.readFileSync(testDb, 'utf8');
+                            fs.existsSync(testDb).should.equal(true);
+                            fs.existsSync(testDb + '~').should.equal(false);
+                            if (!contents.match(/^{"hello":"world","_id":"[0-9a-zA-Z]{16}"}\n$/)) {
+                                throw new Error("Datafile contents not as expected");
+                            }
+                            done();
+                        }).catch(err => {
+                            assert.isNull(err);
+                        });
                 });
             });
         });
@@ -868,12 +873,15 @@ describe('Persistence', function () {
                     theDb.find({}, function (err, docs) {
                         assert.isNull(err);
                         docs.length.should.equal(2);
+
                         _.find(docs, function (item) {
                             return item._id === doc1._id;
                         }).a.should.equal('hello');
+
                         _.find(docs, function (item) {
                             return item._id === doc2._id;
                         }).a.should.equal('world');
+
                         return cb();
                     });
                 },
