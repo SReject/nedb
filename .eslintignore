@@ -1,5 +1,5 @@
 .git/
 .github/
+benchmarks/
 node_modules/
 workspace/
-test/
