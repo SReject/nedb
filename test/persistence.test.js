@@ -1,16 +1,26 @@
-let should = require('chai').should(),
-    assert = require('chai').assert,
-    testDb = 'workspace/test.db',
-    fs = require('fs'),
-    path = require('path'),
-    _ = require('underscore'),
-    async = require('async'),
-    model = require('../lib/model'),
-    customUtils = require('../lib/customUtils'),
-    Datastore = require('../lib/datastore'),
-    Persistence = require('../lib/persistence'),
-    storage = require('../lib/storage'),
-    child_process = require('child_process');
+/*globals describe, it, beforeEach*/
+
+// native modules
+const fs = require('fs');
+const path = require('path');
+const childProcess = require('child_process');
+
+// dep modules
+const _ = require('underscore');
+const async = require('async');
+const chai = require('chai');
+
+// lib modules
+const model = require('../lib/model');
+const Datastore = require('../lib/datastore');
+const Persistence = require('../lib/persistence');
+const storage = require('../lib/storage');
+
+// begin
+chai.should();
+const assert = chai.assert;
+let testDb = 'workspace/test.db';
+
 describe('Persistence', function () {
     let d;
 
@@ -813,7 +823,7 @@ describe('Persistence', function () {
                 assert.isNull(err);
                 fs.existsSync(dbFile).should.equal(true);
                 fs.existsSync(dbFile + '~').should.equal(false);
-                if (contents != "") {
+                if (contents !== "") {
                     throw new Error("Datafile contents not as expected");
                 }
                 done();
@@ -916,7 +926,7 @@ describe('Persistence', function () {
         // The child process will load the database with the given datafile, but the fs.writeFile function
         // is rewritten to crash the process before it finished (after 5000 bytes), to ensure data was not lost
         it('If system crashes during a loadDatabase, the former version is not lost', function (done) {
-            let N = 500, toWrite = "", i, doc_i;
+            let N = 500, toWrite = "", i, docI;
 
             // Ensuring the state is clean
             if (fs.existsSync('workspace/lac.db')) {
@@ -935,7 +945,7 @@ describe('Persistence', function () {
             let datafileLength = fs.readFileSync('workspace/lac.db', 'utf8').length;
 
             // Loading it in a separate process that we will crash before finishing the loadDatabase
-            child_process.fork('test_lac/loadAndCrash.test').on('exit', function (code) {
+            childProcess.fork('test_lac/loadAndCrash.test').on('exit', function (code) {
                 code.should.equal(1); // See test_lac/loadAndCrash.test.js
 
                 fs.existsSync('workspace/lac.db').should.equal(true);
@@ -955,11 +965,11 @@ describe('Persistence', function () {
                     db.find({}, function (err, docs) {
                         docs.length.should.equal(N);
                         for (i = 0; i < N; i += 1) {
-                            doc_i = _.find(docs, function (d) {
+                            docI = _.find(docs, function (d) {
                                 return d._id === 'anid_' + i;
                             });
-                            assert.isDefined(doc_i);
-                            assert.deepEqual({ hello: 'world', _id: 'anid_' + i }, doc_i);
+                            assert.isDefined(docI);
+                            assert.deepEqual({ hello: 'world', _id: 'anid_' + i }, docI);
                         }
                         return done();
                     });
@@ -972,7 +982,7 @@ describe('Persistence', function () {
             if (process.platform === 'win32' || process.platform === 'win64') {
                 return done();
             }
-            child_process.execFile('test_lac/openFdsLaunch.sh', function (err, stdout, stderr) {
+            childProcess.execFile('test_lac/openFdsLaunch.sh', function (err, stdout) {
                 if (err) {
                     return done(err);
                 }
