@@ -1,11 +1,17 @@
-let should = require('chai').should(),
-    assert = require('chai').assert,
-    customUtils = require('../lib/customUtils'),
-    fs = require('fs');
+/*globals describe, it*/
+
+// dep modules
+const chai = require('chai');
+
+// lib modules
+const customUtils = require('../lib/customUtils');
+
+// begin
+chai.should();
+
 describe('customUtils', function () {
 
     describe('uid', function () {
-
         it('Generates a string of the expected length', function () {
             customUtils.uid(3).length.should.equal(3);
             customUtils.uid(16).length.should.equal(16);
@@ -17,7 +23,5 @@ describe('customUtils', function () {
         it('Generated uids should not be the same', function () {
             customUtils.uid(56).should.not.equal(customUtils.uid(56));
         });
-
     });
-
 });

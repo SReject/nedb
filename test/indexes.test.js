@@ -1,10 +1,14 @@
-let Index = require('../lib/indexes'),
-    customUtils = require('../lib/customUtils'),
-    should = require('chai').should(),
-    assert = require('chai').assert,
-    _ = require('underscore'),
-    async = require('async'),
-    model = require('../lib/model');
+/*globals describe, it*/
+
+// dep modules
+const chai = require('chai');
+
+// lib modules
+const Index = require('../lib/indexes');
+
+// begin
+chai.should();
+const assert = chai.assert;
 describe('Indexes', function () {
 
     describe('Insertion', function () {

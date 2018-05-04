@@ -1,13 +1,15 @@
+/*globals describe, it, beforeEach*/
+
 // node modules
 const fs = require('fs');
 const path = require('path');
 
-// deps
+// dep modules
 const chai = require('chai');
 const _ = require('underscore');
 const async = require('async');
 
-// lib
+// lib modules
 const model = require('../lib/model');
 const Datastore = require('../lib/datastore');
 const Cursor = require('../lib/cursor');
@@ -15,14 +17,12 @@ const Index = require('../lib/indexes');
 const Executor = require('../lib/executor');
 const Persistence = require('../lib/persistence');
 
-
-// aliases
-const should = chai.should();
+// begin
+chai.should();
 const assert = chai.assert;
 
 let testDb = 'workspace/test.db';
 let reloadTimeUpperBound = 60; // In ms, an upper bound for the reload time used to check createdAt and updatedAt
-
 describe('Database', function () {
     let d;
 

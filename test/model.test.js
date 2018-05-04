@@ -1,12 +1,22 @@
-let model = require('../lib/model'),
-    should = require('chai').should(),
-    assert = require('chai').assert,
-    expect = require('chai').expect,
-    _ = require('underscore'),
-    async = require('async'),
-    util = require('util'),
-    Datastore = require('../lib/datastore'),
-    fs = require('fs');
+/*globals describe, it*/
+
+// node modules
+const fs = require('fs');
+const util = require('util');
+
+// dep modules
+const chai = require('chai');
+const _ = require('underscore');
+
+// lib modules
+const model = require('../lib/model');
+const Datastore = require('../lib/datastore');
+
+// begin
+chai.should();
+const assert = chai.assert;
+const expect = chai.expect;
+
 describe('Model', function () {
 
     describe('Serialization, deserialization', function () {

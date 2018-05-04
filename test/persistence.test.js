@@ -1,6 +1,6 @@
 /*globals describe, it, beforeEach*/
 
-// native modules
+// node modules
 const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');

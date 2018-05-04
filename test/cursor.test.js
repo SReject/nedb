@@ -1,14 +1,24 @@
-let should = require('chai').should(),
-    assert = require('chai').assert,
-    testDb = 'workspace/test.db',
-    fs = require('fs'),
-    path = require('path'),
-    _ = require('underscore'),
-    async = require('async'),
-    model = require('../lib/model'),
-    Datastore = require('../lib/datastore'),
-    Persistence = require('../lib/persistence'),
-    Cursor = require('../lib/cursor');
+/*globals describe, it, beforeEach*/
+
+// node modules
+const fs = require('fs');
+const path = require('path');
+
+// dep modules
+const _ = require('underscore');
+const async = require('async');
+const chai = require('chai');
+
+// lib modules
+const Datastore = require('../lib/datastore');
+const Persistence = require('../lib/persistence');
+const Cursor = require('../lib/cursor');
+
+// begin
+chai.should();
+const assert = require('chai').assert;
+
+let testDb = 'workspace/test.db';
 describe('Cursor', function () {
     let d;
 
@@ -895,11 +905,3 @@ describe('Cursor', function () {
     }); // ==== End of 'Projections' ====
 
 });
-
-
-
-
-
-
-
-

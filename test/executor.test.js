@@ -1,14 +1,22 @@
-let should = require('chai').should(),
-    assert = require('chai').assert,
-    testDb = 'workspace/test.db',
-    fs = require('fs'),
-    path = require('path'),
-    _ = require('underscore'),
-    async = require('async'),
-    model = require('../lib/model'),
-    Datastore = require('../lib/datastore'),
-    Persistence = require('../lib/persistence')
-  ;
+/*globals describe, it, beforeEach*/
+
+// node modules
+const fs = require('fs');
+const path = require('path');
+
+// dep modules
+const async = require('async');
+const chai = require('chai');
+
+// lib modules
+const Datastore = require('../lib/datastore');
+const Persistence = require('../lib/persistence');
+
+// begin
+chai.should();
+const assert = require('chai').assert;
+
+let testDb = 'workspace/test.db';
 
 
 // Test that even if a callback throws an exception, the next DB operations will still be executed
